@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Geetu</title>
+    <link rel="icon" type="image/jpeg" href="marigeeta.jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .loader {
+            background-color: lavender;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress {
+            height: 10px;
+            width: 50%;
+            margin-bottom: 20px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #dd00ff;
+            transition: width 0.2s ease;
+        }
+
+        #smile {
+            font-size: 100px;
+            filter: drop-shadow(0 2px 8px #aaa);
+            border-radius: 50%;
+            background: #fff;
+            padding: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .cont {
+            height: 100%;
+            width: 100%;
+            display: none;
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #b08db6;
+            flex-direction: column;
+        }
+
+        .cont .container {
+            height: 50%;
+            width: 50%;
+            border-radius: 10px;
+            padding: 20px;
+            animation: fadeInUp 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .cont .container .row .col-md-6 {
+            height: 100%;
+            width: 100%;
+            background-color: lavenderblush;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .cont {
+                padding: 10px;
+            }
+            .cont .container {
+                width: 100%;
+                padding: 5px;
+            }
+            .main-action-btn {
+                font-size: 1.1rem !important;
+                padding: 0.6rem 0.7rem !important;
+                min-width: 90px;
+                margin-bottom: 0.5rem;
+            }
+            .btn-emoji {
+                font-size: 1.3rem !important;
+            }
+        }
+        @media (max-width: 576px) {
+            .row.row-cols-4 {
+                --bs-columns: 2;
+            }
+            .main-action-btn {
+                font-size: 1rem !important;
+                padding: 0.5rem 0.5rem !important;
+            }
+            .btn-emoji {
+                font-size: 1.1rem !important;
+            }
+        }
+        @media (max-width: 480px) {
+            .main-btn-row {
+                flex-direction: column !important;
+                gap: 10px !important;
+                padding: 0 5px;
+            }
+            .main-action-btn {
+                width: 100% !important;
+                font-size: 0.98rem !important;
+                padding: 0.55rem 0.5rem !important;
+                margin-bottom: 0.3rem !important;
+            }
+            .btn-emoji {
+                font-size: 1rem !important;
+            }
+            .cont {
+                padding: 2px !important;
+            }
+            .cont .container {
+                width: 100% !important;
+                padding: 2px !important;
+            }
+            .modal-content {
+                padding: 0.5rem !important;
+            }
+            .row.row-cols-4 {
+                --bs-columns: 2;
+            }
+            .col.text-center img.img-fluid {
+                max-width: 60px !important;
+                max-height: 60px !important;
+            }
+        }
+
+        /* Animation for .container */
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="w-100 text-center py-3" style="background: #fff0fa; box-shadow: 0 2px 8px #e0b3e6; position: sticky; top: 0; z-index: 100;">
+        <img src="marigeeta.jpg" alt="Geetu" style="height: 48px; width: 48px; object-fit: cover; border-radius: 50%; margin-right: 10px; vertical-align: middle; box-shadow: 0 2px 8px #e0b3e6;">
+        <span style="font-size: 2rem; font-weight: bold; color: #b08db6; vertical-align: middle; letter-spacing: 2px;">Geetu</span>
+    </header>
+
+    <div class="loader">
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div id="smile">☹️</div>
+    </div>
+
+    <div class="cont">
+        <div class="container">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-md-6 d-flex flex-column justify-content-center align-items-center text-center">
+                    <h1 id="typewriter-h1"></h1>
+                    <p id="typewriter-p"></p>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap;" class="main-btn-row">
+            <button id="stickerBtn" class="btn btn-primary rounded-pill shadow-lg mb-2 w-100 main-action-btn">
+                <span class="btn-emoji">🧸</span> Sticker
+            </button>
+            <button id="audioBtn" class="btn btn-success rounded-pill shadow-lg mb-2 w-100 main-action-btn">
+                <span class="btn-emoji">🎵</span> Audio
+            </button>
+            <a href="tel:7251848020" id="callBtn" class="btn btn-warning rounded-pill shadow-lg w-100 main-action-btn">
+                <span class="btn-emoji">📞</span> Call
+            </a>
+        </div>
+    </div>
+
+    <!-- Sticker Modal -->
+    <div class="modal fade" id="stickerModal" tabindex="-1" aria-labelledby="stickerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="stickerModalLabel">Stickers for You!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row row-cols-4 g-2 justify-content-center">
+                <div class="col text-center">
+                  <img src="1.jpg" alt="Sticker 1" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="1.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="2.jpg" alt="Sticker 2" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="2.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="3.jpg" alt="Sticker 3" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="3.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="4.jpg" alt="Sticker 4" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="4.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="5.jpg" alt="Sticker 5" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="5.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="6.jpg" alt="Sticker 6" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="6.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="7.jpg" alt="Sticker 7" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="7.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+                <div class="col text-center">
+                  <img src="8.jpg" alt="Sticker 8" class="img-fluid" style="max-width: 80px; max-height: 80px;"><br>
+                  <a href="8.jpg" download class="btn btn-sm btn-outline-secondary mt-1">Download</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audio Modal -->
+    <div class="modal fade" id="audioModal" tabindex="-1" aria-labelledby="audioModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="audioModalLabel">Audio for You!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group">
+              <li class="list-group-item d-flex align-items-center justify-content-between">
+                <span>My Audio</span>
+                <div>
+                  <button class="btn btn-sm btn-success play-audio" data-audio="audio1"><i class="bi bi-play-fill"></i> Play</button>
+                  <button class="btn btn-sm btn-danger stop-audio" data-audio="audio1"><i class="bi bi-stop-fill"></i> Stop</button>
+                </div>
+              </li>
+            </ul>
+            <audio id="audio1" src="myaudioi.unknown"></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+        const progressBar = document.getElementById("progressBar");
+        const smile = document.getElementById("smile");
+        const loader = document.querySelector(".loader");
+        const content = document.querySelector(".cont");
+
+        let progress = 0;
+        const emojis = ["☹️", "😐", "🙂", "😊", "😃", "😁", "😄", "😆", "😎", "🥰", "💖"];
+
+        const interval = setInterval(() => {
+            if (progress >= 100) {
+                clearInterval(interval);
+                loader.style.display = "none";
+                content.style.display = "flex";
+                startTypewriter();
+            } else {
+                progress += 1;
+                progressBar.style.width = `${progress}%`;
+
+                // Change emoji every 10%
+                let emojiIndex = Math.floor(progress / 10);
+                if (emojiIndex >= emojis.length) emojiIndex = emojis.length - 1;
+                smile.innerText = emojis[emojiIndex];
+            }
+        }, 40); // speed: 100% in ~4 seconds
+
+        // Typewriter effect for h1 and p
+        function startTypewriter() {
+            const h1Text = "Hello Geetu...";
+            const pText = `Sometimes life feels tangled and heavy, but you're stronger than all of it, Geetu.
+There's a light inside you that can gently defeat even the darkest days.
+You might feel alone sometimes, but I'm always with you — whether you speak or stay silent.
+I'm right here, to listen to you, to understand you… without any conditions, without any judgment.
+Just stay happy, because your smile is my entire world. 💛`;
+            const h1Elem = document.getElementById("typewriter-h1");
+            const pElem = document.getElementById("typewriter-p");
+
+            // Split into words
+            const h1Words = h1Text.split(" ");
+            const pWords = pText.split(" ");
+
+            let h1Index = 0;
+            let pIndex = 0;
+
+            function typeH1() {
+                if (h1Index < h1Words.length) {
+                    h1Elem.innerHTML += (h1Index > 0 ? " " : "") + h1Words[h1Index];
+                    h1Index++;
+                    setTimeout(typeH1, 200);
+                } else {
+                    setTimeout(typeP, 400);
+                }
+            }
+
+            function typeP() {
+                if (pIndex < pWords.length) {
+                    pElem.innerHTML += (pIndex > 0 ? " " : "") + pWords[pIndex];
+                    pIndex++;
+                    setTimeout(typeP, 60);
+                }
+            }
+
+            typeH1();
+        }
+
+        // Sticker modal logic
+        const stickerBtn = document.getElementById('stickerBtn');
+        const stickerModal = new bootstrap.Modal(document.getElementById('stickerModal'));
+        stickerBtn.addEventListener('click', () => {
+            stickerModal.show();
+        });
+
+        // Download sticker logic
+        function downloadEmojiAsPng(emoji, filename) {
+            const canvas = document.createElement('canvas');
+            const size = 128;
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, size, size);
+            ctx.font = '100px serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, size / 2, size / 2);
+            canvas.toBlob(function(blob) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+        }
+
+        document.querySelectorAll('.download-sticker').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const emoji = this.getAttribute('data-emoji');
+                downloadEmojiAsPng(emoji, `sticker-${emoji}.png`);
+            });
+        });
+
+        // Audio modal logic
+        const audioBtn = document.getElementById('audioBtn');
+        const audioModal = new bootstrap.Modal(document.getElementById('audioModal'));
+        audioBtn.addEventListener('click', () => {
+            audioModal.show();
+        });
+
+        // Audio play/stop logic
+        function stopAllAudio() {
+            document.querySelectorAll('audio').forEach(aud => {
+                aud.pause();
+                aud.currentTime = 0;
+            });
+        }
+        document.querySelectorAll('.play-audio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                stopAllAudio();
+                const audioId = this.getAttribute('data-audio');
+                const audioElem = document.getElementById(audioId);
+                if (audioElem) audioElem.play();
+            });
+        });
+        document.querySelectorAll('.stop-audio').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const audioId = this.getAttribute('data-audio');
+                const audioElem = document.getElementById(audioId);
+                if (audioElem) {
+                    audioElem.pause();
+                    audioElem.currentTime = 0;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
